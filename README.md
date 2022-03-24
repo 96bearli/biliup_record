@@ -14,6 +14,9 @@
 
 ~~~shell
 python UP动态留档.py
+# 等待完成后数据存放在./data/UID/
+python UP动态数据处理.py
+# ./data/UID/data.md
 ~~~
 
 ## Future
@@ -29,9 +32,11 @@ python UP动态留档.py
 |----|----|
 |2022-3-23|协程爬虫主程序|
 |2022-3-24|.md生成主程序|
+|2022-3-24|修复.md处理BUG|
 
 ## Need to fix
 
 - [ ] 转发动态的时间戳为0
 - [ ] 转发动态的真实url 404（rid）
-- [ ] markdown处理: pic_data有误
+- [x] markdown处理: pic_data有空数据无法识别
+- [x] markdown处理: pic_data识别成功的多一'

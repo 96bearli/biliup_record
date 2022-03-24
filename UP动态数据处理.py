@@ -24,7 +24,8 @@ def title_md(_time: str, type) -> str:
 
 
 def pic_md(pic_str: str) -> str:
-    pics = pic_str.split("&")
+    pics = pic_str.replace("'","").replace("[","").replace("]","").split("&")
+    print(pics)
     if len(pics) == 0:
         return None
     text = ""
@@ -32,6 +33,8 @@ def pic_md(pic_str: str) -> str:
         name = pic.split("/")[-1]
         if "?" in name:
             name = name.split("?")[0]
+        if name == "":
+            continue
         text += f"![{name}]({img_path + name}) "
     return text
 
@@ -81,7 +84,10 @@ if __name__ == '__main__':
             content = content
         else:
             content = content_md(content, pic_data)
+
         click_url = id_url_md(data[3], data[4])
+        print(click_url)
+        print(content)
         with open(md_path, "a+", encoding="utf8") as f:
             f.write(title)
             f.write(click_url)
