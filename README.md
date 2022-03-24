@@ -13,15 +13,17 @@
 修改python源码中的**UID**
 
 ~~~shell
-python UP动态留档.py
+python main_get.py
 # 等待完成后数据存放在./data/UID/
-python UP动态数据处理.py
+python main_data.py
 # ./data/UID/data.md
 ~~~
 
 ## Future
 
 * ~~进行数据处理，**markdown**格式整理动态和图片~~(Done)
+* 使用json存放参数
+* sys指定参数（uid）
 * 放弃CSV的数据储存方式
 * 美化代码，优化逻辑
 * 修复BUG
@@ -35,6 +37,8 @@ python UP动态数据处理.py
 |2022-3-24|修复.md处理BUG|
 |2022-3-24|Fix type & More strong|
 |2022-3-24|常用的动态转发已修复|
+|2022-3-24|修改文件名|
+
 ## Need to fix
 
 - [x] 新card_type：audio(au)
