@@ -66,6 +66,8 @@ async def main(uid):
         count += 1
         tasks = []
         data_json, offset, more = get_content(s, url=url)
+        # print(data_json)
+        # exit()
         if more == 0:
             break
         for dict_da in data_json['data']['cards']:
@@ -74,30 +76,31 @@ async def main(uid):
             dict_data = json.loads(dict_da['card'])
             # print(dict_data)
             save_data(paths[0] + "data.txt", dict_data)
+            num = data_json['data']['cards'].index(dict_da)
             if key == "item":  # 图片动态
                 upload_time = dict_data['item']['upload_time']  # int
                 content = dict_data['item']['description'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                 pic_urls = [d["img_src"] for d in dict_data['item']['pictures']]  # list
                 # id_ = dict_data['item']['id']  # int
-                id_ = data_json['data']['cards'][data_json['data']['cards'].index(dict_da)]['desc']["dynamic_id"]  # int
+                id_ = data_json['data']['cards'][num]['desc']["dynamic_id"]  # int
                 other = "img"
-            elif key == "user":  # 文字动态 or 转发
+            elif key == "user":  # 文字动态 or 转发 /data/cards/0/desc/dynamic_id
                 try:
                     origin = json.loads(dict_data["origin"])
-                    upload_time = dict_data['item']['timestamp']  # int
+                    upload_time = data_json['data']['cards'][num]['desc']["timestamp"]  # int /data/cards/0/desc/timestamp
                     try:
-                        content = f"{dict_data['item']['content']},转发视频av{origin['aid']}".replace("\r", "").replace("\n", "\\n").replace(
+                        content = f"{dict_data['item']['content']},转发视频[{origin['title']}](https://b23.tv/av{origin['aid']})".replace("\r", "").replace("\n", "\\n").replace(
                             ",", "，").replace("'", "‘").replace('"','”')  # str
                     except KeyError:
                         content = f"{dict_data['item']['content']},{origin['item']['rp_id']}".replace("\r", "").replace("\n","\\n").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                     pic_urls = []  # list
-                    id_ = dict_data['item']['rp_id']  # int
+                    id_ = data_json['data']['cards'][num]['desc']["dynamic_id"] # int
                     other = "reprint"
                 except KeyError as e:
                     upload_time = dict_data['item']['timestamp']  # int
                     content = dict_data['item']['content'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                     pic_urls = []  # list
-                    id_ = dict_data['item']['rp_id']  # int
+                    id_ = data_json['data']['cards'][num]['desc']["dynamic_id"]  # int
                     other = "text"
             elif key == "aid":  # 视频投稿
                 upload_time = dict_data['pubdate']  # int

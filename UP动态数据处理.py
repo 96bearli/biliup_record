@@ -71,7 +71,7 @@ if __name__ == '__main__':
     img_path = "./img/"
     md_path = base_path + "data.md"
     with open(md_path, "w", encoding="utf8") as f:
-        f.write(f"# UID:{UID} 动态留档\n")
+        f.write(f"# UID:{UID} 动态留档\n动态页面：[点此直达](https://space.bilibili.com/{UID}/dynamic)\n")
     datas = get_data(base_path)
     for data in datas:
         print(data)
