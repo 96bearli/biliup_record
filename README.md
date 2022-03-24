@@ -33,10 +33,12 @@ python UP动态数据处理.py
 |2022-3-23|协程爬虫主程序|
 |2022-3-24|.md生成主程序|
 |2022-3-24|修复.md处理BUG|
-
+|2022-3-24|Fix type & More strong|
 ## Need to fix
 
-- [ ] 转发动态的时间戳为0
-- [ ] 转发动态的真实url 404（rid）
+- [x] 新card_type：audio(au)
 - [x] markdown处理: pic_data有空数据无法识别
 - [x] markdown处理: pic_data识别成功的多一'
+- [ ] Type:text 真实url 404（rid）
+- [ ] Type:reprint 时间戳为0
+- [ ] Type:reprint 真实url 404（rid）

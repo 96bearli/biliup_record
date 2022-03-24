@@ -44,6 +44,7 @@ async def download(url: str):
         print(f"* Error:Download_failed:{url}")
         return 0
     save_img(paths[1], name, req.content)
+    return True
 
 
 def get_content(s, url: str):
@@ -75,7 +76,7 @@ async def main(uid):
             save_data(paths[0] + "data.txt", dict_data)
             if key == "item":  # 图片动态
                 upload_time = dict_data['item']['upload_time']  # int
-                content = dict_data['item']['description'].replace("\n", "\\n").replace(",", "，")  # str
+                content = dict_data['item']['description'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                 pic_urls = [d["img_src"] for d in dict_data['item']['pictures']]  # list
                 # id_ = dict_data['item']['id']  # int
                 id_ = data_json['data']['cards'][data_json['data']['cards'].index(dict_da)]['desc']["dynamic_id"]  # int
@@ -85,36 +86,42 @@ async def main(uid):
                     origin = json.loads(dict_data["origin"])
                     upload_time = dict_data['item']['timestamp']  # int
                     try:
-                        content = f"{dict_data['item']['content']},转发视频av{origin['aid']}".replace("\n", "\\n").replace(
-                            ",", "，")  # str
+                        content = f"{dict_data['item']['content']},转发视频av{origin['aid']}".replace("\r", "").replace("\n", "\\n").replace(
+                            ",", "，").replace("'", "‘").replace('"','”')  # str
                     except KeyError:
-                        content = f"{dict_data['item']['content']},{origin['item']['rp_id']}".replace("\n",
-                                                                                                      "\\n").replace(
-                            ",", "，")  # str
+                        content = f"{dict_data['item']['content']},{origin['item']['rp_id']}".replace("\r", "").replace("\n","\\n").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                     pic_urls = []  # list
                     id_ = dict_data['item']['rp_id']  # int
                     other = "reprint"
                 except KeyError as e:
                     upload_time = dict_data['item']['timestamp']  # int
-                    content = dict_data['item']['content'].replace("\n", "\\n").replace(",", "，")  # str
+                    content = dict_data['item']['content'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                     pic_urls = []  # list
                     id_ = dict_data['item']['rp_id']  # int
                     other = "text"
             elif key == "aid":  # 视频投稿
                 upload_time = dict_data['pubdate']  # int
-                content = dict_data['dynamic'].replace("\n", "\\n").replace(",", "，")  # str
+                content = dict_data['dynamic'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                 pic_urls = [dict_data["pic"]]  # list
                 id_ = dict_data['aid']  # int
                 other = "av"
             elif key == "id":  # 专栏投稿
-                upload_time = dict_data['publish_time']  # int
-                content = dict_data['title'].replace("\n", "\\n").replace(",", "，")  # str
-                pic_urls = [dict_data["banner_url"]]  # list
-                id_ = dict_data['id']  # int
-                other = "cv"
+                try:
+                    upload_time = dict_data['publish_time']  # int
+                    content = dict_data['title'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
+                    pic_urls = [dict_data["banner_url"]]  # list
+                    id_ = dict_data['id']  # int
+                    other = "cv"
+                except:
+                    upload_time = dict_data['ctime']  # int
+                    content = (dict_data['title'] + "\n" + dict_data['intro']).replace("\r", "").replace("\n", "\\n").replace(",",
+                                                                                                            "，").replace("'", "‘").replace('"','”')  # str
+                    pic_urls = [dict_data["cover"]]  # list
+                    id_ = dict_data['id']  # int
+                    other = "au"
             elif key == "rid":
                 upload_time = 0  # int
-                content = dict_data['vest']['content'].replace("\n", "\\n").replace(",", "，")  # str
+                content = dict_data['vest']['content'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                 pic_urls = []  # list
                 id_ = dict_data['rid']  # int
                 other = "decorate"
@@ -128,14 +135,14 @@ async def main(uid):
             for p_u in pic_urls:
                 if p_u == "":
                     pic_urls.remove(p_u)
-            save_data(paths[0] + "data.csv", f"{upload_time},{content},{pic_urls},{id_},{other}", encoding="utf-8-sig")
+            save_data(paths[0] + "data.csv", f"{upload_time},{content},{'&'.join(pic_urls)},{id_},{other}", encoding="utf-8-sig")
             for p_u in pic_urls:
                 tasks.append(download(p_u))
         result = await asyncio.gather(*tasks)
 
 
 if __name__ == '__main__':
-    uids = [672328094]
+    uids = [4]
     path_creat("./data")
     # 时间戳转换 Fx = "=(A1+8*3600)/86400+70*365+19"
     for uid in uids:

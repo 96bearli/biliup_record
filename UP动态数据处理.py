@@ -11,7 +11,10 @@ def get_data(base_path):
 
 
 def time_md(_time: str):
-    timeStamp = int(_time)
+    if len(_time) > 10:
+        timeStamp = int(int(_time)/1000)
+    else:
+        timeStamp = int(_time)
     timeArray = time.localtime(timeStamp)
     otherStyleTime = time.strftime("## %Y年%m月%d日 %H:%M:%S", timeArray)
     # ## 2020年11月23日 20:16:20
@@ -53,6 +56,9 @@ def id_url_md(id, type) -> str:
     elif type == "cv":
         url = f"https://www.bilibili.com/read/cv{id}"
         text = f"[点击直达专栏]({url})"
+    elif type == "au":
+        url = f"https://www.bilibili.com/audio/au{id}"
+        text = f"[点击直达音乐]({url})"
     else:
         print(type, "   ", id)
         exit()
@@ -60,12 +66,12 @@ def id_url_md(id, type) -> str:
 
 
 if __name__ == '__main__':
-    UID = 672328094
+    UID = 4
     base_path = f"./data/{UID}/"
     img_path = "./img/"
     md_path = base_path + "data.md"
     with open(md_path, "w", encoding="utf8") as f:
-        f.write(f"#UID:{UID} 动态留档\n")
+        f.write(f"# UID:{UID} 动态留档\n")
     datas = get_data(base_path)
     for data in datas:
         print(data)
@@ -78,7 +84,7 @@ if __name__ == '__main__':
         find_tag = re.compile("#.+?#")
         tags = re.findall(find_tag, content)
         for tag in tags:
-            content = content.replace(tag, f'Tag:{tag.replace("#", "")}')
+            content = content.replace(tag, f'Tag:{tag.replace("#", "")} ')
 
         if pic_data is None:
             content = content
