@@ -34,11 +34,18 @@ python UP动态数据处理.py
 |2022-3-24|.md生成主程序|
 |2022-3-24|修复.md处理BUG|
 |2022-3-24|Fix type & More strong|
+|2022-3-24|常用的动态转发已修复|
 ## Need to fix
 
 - [x] 新card_type：audio(au)
 - [x] markdown处理: pic_data有空数据无法识别
 - [x] markdown处理: pic_data识别成功的多一'
-- [x] Type:text 真实url 404（rid）
+- [x] ~~Type:text 真实url 404（rid）~~
 - [x] Type:reprint 时间戳为0
 - [x] Type:reprint 真实url 404（rid）
+- [x] Type:reprint_2 转发动态无法识别
+- [ ] Type:reprint_3 转发cv无法正确识别
+- [ ] Type:reprint_4 转发音频无法正确识别-猜测
+- [ ] Type:reprint_5 转发装扮无法正确识别-猜测
+
+ 

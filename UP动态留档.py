@@ -87,17 +87,25 @@ async def main(uid):
             elif key == "user":  # 文字动态 or 转发 /data/cards/0/desc/dynamic_id
                 try:
                     origin = json.loads(dict_data["origin"])
-                    upload_time = data_json['data']['cards'][num]['desc']["timestamp"]  # int /data/cards/0/desc/timestamp
+                    try:# 转发动态
+                        upload_time = data_json['data']['cards']['item']['timestamp']
+                    except Exception:# 转发av
+                        # print(Exception)
+                        upload_time = data_json['data']['cards'][num]['desc']["timestamp"]  # int /data/cards/0/desc/timestamp
+                    # if upload_time == 0:
+                    #     upload_time = data_json['data']['cards']['item']['timestamp']
                     try:
                         content = f"{dict_data['item']['content']},转发视频[{origin['title']}](https://b23.tv/av{origin['aid']})".replace("\r", "").replace("\n", "\\n").replace(
                             ",", "，").replace("'", "‘").replace('"','”')  # str
-                    except KeyError:
-                        content = f"{dict_data['item']['content']},{origin['item']['rp_id']}".replace("\r", "").replace("\n","\\n").replace(",", "，").replace("'", "‘").replace('"','”')  # str
+                    except KeyError: # /item/orig_dy_id /item/description
+                        # print(KeyError)
+                        content = f"{dict_data['item']['content']},转发动态[{dict_data['origin_user']['info']['uname']} UID:{dict_data['origin_user']['info']['uid']}动态](https://t.bilibili.com/{dict_data['item']['orig_dy_id']})\n内容：{origin['item']['content']}".replace("\r", "").replace("\n","\\n").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                     pic_urls = []  # list
                     id_ = data_json['data']['cards'][num]['desc']["dynamic_id"] # int
                     other = "reprint"
                 except KeyError as e:
-                    upload_time = dict_data['item']['timestamp']  # int
+                    # print(e)
+                    upload_time = dict_data['item']['timestamp']  # int /item/upload_time
                     content = dict_data['item']['content'].replace("\n", "\\n").replace("\r", "").replace(",", "，").replace("'", "‘").replace('"','”')  # str
                     pic_urls = []  # list
                     id_ = data_json['data']['cards'][num]['desc']["dynamic_id"]  # int
@@ -141,11 +149,12 @@ async def main(uid):
             save_data(paths[0] + "data.csv", f"{upload_time},{content},{'&'.join(pic_urls)},{id_},{other}", encoding="utf-8-sig")
             for p_u in pic_urls:
                 tasks.append(download(p_u))
+        # exit()
         result = await asyncio.gather(*tasks)
 
 
 if __name__ == '__main__':
-    uids = [4]
+    uids = [351609538]
     path_creat("./data")
     # 时间戳转换 Fx = "=(A1+8*3600)/86400+70*365+19"
     for uid in uids:
