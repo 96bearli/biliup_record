@@ -6,38 +6,41 @@
 
 使用**httpx**模块，请自行pip install
 
-目前比较**粗糙**，等待更新
+目前能将就用了，有些小BUG，代码还是很乱
 
 ## 使用
 ### 获取数据
 file  main_get.py
 ```shell
 # 两个参数
-# uids：一个用英文','隔开的数字串（无空格）
-# 是否下载图片：1或0（不输入第二项参数默认不下载）
+# parm1 uids：一个用英文','隔开的字符串（无空格）
+# parm2 是否下载图片：1或0（不输入第二项参数默认不下载）
 python main_get.py <",".join(uids)> <download_img?>
-# 两个实例
+# 两个示例
 # uids:[1111,22222,333333] download_img?:False
 python main_get.py 1111,22222,333333 0   #
 # uids:[1111] download_img?:False
 python main_get.py 1111
+# out: ./data/1111
 ```
 ### 处理数据
 ~~~shell
-python main_get.py
-# 等待完成后数据存放在./data/UID/
-python main_data.py
-# ./data/UID/data.md
+# 参数 单个UID
+python main_data.py <UID>
+# 示例 整理./data/1111内的数据
+python main_data.py 1111
+# out: ./data/1111/data.md
 
 # 如果有pandoc可以把markdown文件转为html
 bash ./2html.sh UID # linux下
+pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md
 ~~~
 
 ## Future
 
-* ~~进行数据处理，**markdown**格式整理动态和图片~~(Done)
+* ~~进行数据处理，**markdown**格式整理动态和图片~~ (Done)
 * 使用json存放参数
-* sys指定参数（uid）
+* ~~sys指定参数（uid~~ (Done)
 * 放弃CSV的数据储存方式
 * 美化代码，优化逻辑
 * 修复BUG
@@ -53,6 +56,8 @@ bash ./2html.sh UID # linux下
 |2022-3-24|常用的动态转发已修复|
 |2022-3-24|修改文件名|
 |2022-3-25|pandoc md2html shell|
+|2022-3-25|改变两个主程序参数获取方式|
+|2022-3-25|完善生成的.md格式|
 
 ## Need to fix
 

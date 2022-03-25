@@ -1,18 +1,19 @@
 # -*- coding = utf-8 -*-
 # @Python : 3.8
 import re
+import sys
 import time
 
 
-def get_data(base_path):
-    with open(base_path + "data.csv", "r", encoding="utf-8-sig") as f:
-        lines = [l.replace("\n", "").split(",") for l in f.readlines()]
+def get_data(path):
+    with open(path + "data.csv", "r", encoding="utf-8-sig") as fl:
+        lines = [l.replace("\n", "").split(",") for l in fl.readlines()]
     return lines
 
 
 def time_md(_time: str):
     if len(_time) > 10:
-        timeStamp = int(int(_time)/1000)
+        timeStamp = int(int(_time) / 1000)
     else:
         timeStamp = int(_time)
     timeArray = time.localtime(timeStamp)
@@ -23,12 +24,12 @@ def time_md(_time: str):
 
 
 def title_md(_time: str, type) -> str:
-    return f"{_time} Type:{type}\n"
+    return f"{_time} Type:{type}\r\n"
 
 
 def pic_md(pic_str: str) -> str:
-    pics = pic_str.replace("'","").replace("[","").replace("]","").split("&")
-    print(pics)
+    pics = pic_str.replace("'", "").replace("[", "").replace("]", "").split("&")
+    print("pics urls: ", pics)
     if len(pics) == 0:
         return None
     text = ""
@@ -43,7 +44,7 @@ def pic_md(pic_str: str) -> str:
 
 
 def content_md(text, pic_content) -> str:
-    return f"{text}\n{pic_content}\n"
+    return f"{text}\r\n{pic_content}\r\n"
 
 
 def id_url_md(id, type) -> str:
@@ -62,25 +63,33 @@ def id_url_md(id, type) -> str:
     else:
         print(type, "   ", id)
         exit()
-    return text + "\n"
+    return text + "\r\n"
 
 
 if __name__ == '__main__':
     UID = 351609538
+    if len(sys.argv) != 1:
+        UID = sys.argv[1]
+        print(f"* 已获取参数 <目标UID:{UID}>")
+    else:
+        print(f"* 未获取到外置参数,使用内置参数 <目标UID:{UID}>")
+        print('''* Usage: python main_get.py <UID>
+    example1: python main_get.py 1111,22222,333333 0   #uids:[1111,22222,333333] download_img?:False''')
+        time.sleep(3)
     base_path = f"./data/{UID}/"
     img_path = "./img/"
     md_path = base_path + "data.md"
     with open(md_path, "w", encoding="utf8") as f:
-        f.write(f"# UID:{UID} 动态留档\n动态页面：[点此直达](https://space.bilibili.com/{UID}/dynamic)\n")
+        f.write(f"# UID:{UID} 动态留档\r\n动态页面：[点此直达](https://space.bilibili.com/{UID}/dynamic)\r\n")
     datas = get_data(base_path)
     for data in datas:
-        print(data)
+        # print(data)
         time_ = time_md(data[0])
         title = title_md(time_, data[4])
         print(title)
         pic_data = pic_md(data[2])
 
-        content = data[1].replace("\\n", "\n") + "\n"
+        content = data[1].replace("\\n", "\n") + "\r\n"
         find_tag = re.compile("#.+?#")
         tags = re.findall(find_tag, content)
         for tag in tags:
@@ -92,9 +101,10 @@ if __name__ == '__main__':
             content = content_md(content, pic_data)
 
         click_url = id_url_md(data[3], data[4])
-        print(click_url)
-        print(content)
+        # print(click_url)
+        # print(content)
         with open(md_path, "a+", encoding="utf8") as f:
             f.write(title)
             f.write(click_url)
             f.write(content)
+    print("Done!")
