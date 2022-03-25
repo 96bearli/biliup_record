@@ -2,6 +2,8 @@
 
 对bilibili的**up动态进行留档**，对动态自动分类标记保存到csv文件
 
+处理得到的数据，整理得到有一定格式的markdown文件
+
 使用**协程**下载动态中涉及的图片和视频封面
 
 使用**httpx**模块，请自行pip install
@@ -10,7 +12,7 @@
 
 ## 使用
 ### 获取数据
-file  main_get.py
+file  **main_get.py**
 ```shell
 # 两个参数
 # parm1 uids：一个用英文','隔开的字符串（无空格）
@@ -24,6 +26,7 @@ python main_get.py 1111
 # out: ./data/1111
 ```
 ### 处理数据
+file  **main_data.py**
 ~~~shell
 # 参数 单个UID
 python main_data.py <UID>
@@ -32,8 +35,9 @@ python main_data.py 1111
 # out: ./data/1111/data.md
 
 # 如果有pandoc可以把markdown文件转为html
+# 下面二选一
 bash ./2html.sh UID # linux下
-pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md
+pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 ~~~
 
 ## Future
