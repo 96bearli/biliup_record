@@ -76,4 +76,10 @@ pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 - [ ] Type:reprint_4 转发音频无法正确识别-猜测
 - [ ] Type:reprint_5 转发装扮无法正确识别-猜测
 
- 
+## 欢迎参与本项目
+如何参与
+1. Fork 本仓库
+2. clone fork的仓库
+3. new branch
+4. git push
+5. Pull Request
