@@ -17,6 +17,9 @@ python main_get.py
 # 等待完成后数据存放在./data/UID/
 python main_data.py
 # ./data/UID/data.md
+
+# 如果有pandoc可以把markdown文件转为html
+bash ./2html.sh UID #linux
 ~~~
 
 ## Future
@@ -38,6 +41,7 @@ python main_data.py
 |2022-3-24|Fix type & More strong|
 |2022-3-24|常用的动态转发已修复|
 |2022-3-24|修改文件名|
+|2022-3-25|pandoc md2html shell|
 
 ## Need to fix
 
