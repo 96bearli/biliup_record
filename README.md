@@ -9,9 +9,20 @@
 目前比较**粗糙**，等待更新
 
 ## 使用
-
-修改python源码中的**UID**
-
+### 获取数据
+file  main_get.py
+```shell
+# 两个参数
+# uids：一个用英文','隔开的数字串（无空格）
+# 是否下载图片：1或0（不输入第二项参数默认不下载）
+python main_get.py <",".join(uids)> <download_img?>
+# 两个实例
+# uids:[1111,22222,333333] download_img?:False
+python main_get.py 1111,22222,333333 0   #
+# uids:[1111] download_img?:False
+python main_get.py 1111
+```
+### 处理数据
 ~~~shell
 python main_get.py
 # 等待完成后数据存放在./data/UID/
@@ -19,7 +30,7 @@ python main_data.py
 # ./data/UID/data.md
 
 # 如果有pandoc可以把markdown文件转为html
-bash ./2html.sh UID #linux
+bash ./2html.sh UID # linux下
 ~~~
 
 ## Future
