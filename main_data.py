@@ -104,7 +104,7 @@ if __name__ == '__main__':
         # print(click_url)
         # print(content)
         with open(md_path, "a+", encoding="utf8") as f:
-            f.write(title)
+            f.write("\r\n"+title)
             f.write(click_url)
             f.write(content)
     print("Done!")
