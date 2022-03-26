@@ -35,9 +35,10 @@ python main_data.py 1111
 # out: ./data/1111/data.md
 
 # 如果有pandoc可以把markdown文件转为html
-# 下面二选一
-bash ./2html.sh UID # linux下
-pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
+# 脚本根目录，下面命令三选一
+bash ./2html.sh <UID> # linux下
+.\2html.cmd <UID> # windows下
+pandoc -f markdown -t html -o data/<UID>/index.html data/<UID>/data.md # All
 ~~~
 
 ## Future
@@ -63,7 +64,8 @@ pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 |2022-3-25|pandoc md2html shell|
 |2022-3-25|改变两个主程序参数获取方式|
 |2022-3-25|完善生成的.md格式|
-|2022-3-26|修复转发带图动态内容|
+|2022-3-26|修复转发带图动态内容（默认不下动态图）|
+|2022-3-26|pandoc md2html cmd|
 
 ## Need to fix
 
@@ -77,7 +79,7 @@ pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 - [ ] Type:reprint_3 转发cv无法正确识别
 - [ ] Type:reprint_4 转发音频无法正确识别-猜测
 - [ ] Type:reprint_5 转发装扮无法正确识别-猜测
-- [ ] Type:reprint_5 转发带图动态无法获得时间戳
+- [ ] Type:reprint_6 转发带图动态无法获得时间戳
 
 ## 欢迎参与本项目
 如何参与
