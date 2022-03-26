@@ -48,6 +48,7 @@ pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 * 放弃CSV的数据储存方式
 * 美化代码，优化逻辑
 * 修复BUG
+* 检测img文件夹，如果图片存在不会重新下载
 
 ## Update
 
@@ -62,6 +63,7 @@ pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 |2022-3-25|pandoc md2html shell|
 |2022-3-25|改变两个主程序参数获取方式|
 |2022-3-25|完善生成的.md格式|
+|2022-3-26|修复转发带图动态内容|
 
 ## Need to fix
 
@@ -71,10 +73,11 @@ pandoc -f markdown -t html -o data/$1/index.html data/$1/data.md # All
 - [x] ~~Type:text 真实url 404（rid）~~
 - [x] Type:reprint 时间戳为0
 - [x] Type:reprint 真实url 404（rid）
-- [x] Type:reprint_2 转发动态无法识别
+- [x] Type:reprint_2 转发文字动态无法识别
 - [ ] Type:reprint_3 转发cv无法正确识别
 - [ ] Type:reprint_4 转发音频无法正确识别-猜测
 - [ ] Type:reprint_5 转发装扮无法正确识别-猜测
+- [ ] Type:reprint_5 转发带图动态无法获得时间戳
 
 ## 欢迎参与本项目
 如何参与

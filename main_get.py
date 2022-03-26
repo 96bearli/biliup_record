@@ -107,17 +107,26 @@ async def main(uid, d_img: bool):
                     # if upload_time == 0:
                     #     upload_time = data_json['data']['cards']['item']['timestamp']
                     try:
-                        content = f"{dict_data['item']['content']},转发视频[{origin['title']}](https://b23.tv/av{origin['aid']})".replace(
+                        content = f"评论：{dict_data['item']['content']}\n\r转发视频[{origin['title']}](https://b23.tv/av{origin['aid']})".replace(
                             "\r", "").replace("\n", "\\n").replace(",", "，").replace("'", "‘").replace('"', '”')  # str
+                        pic_urls = []  # list
                     except KeyError:  # /item/orig_dy_id /item/description
                         # print(KeyError)
-                        content = f"{dict_data['item']['content']},转发动态[{dict_data['origin_user']['info']['uname']} UID:{dict_data['origin_user']['info']['uid']}动态](https://t.bilibili.com/{dict_data['item']['orig_dy_id']})\n内容：{origin['item']['content']}".replace(
-                            "\r", "").replace("\n", "\\n").replace(",", "，").replace("'", "‘").replace('"', '”')  # str
-                    pic_urls = []  # list
+                        try:
+                            content = f"评论：{dict_data['item']['content']}\n\r转发动态[{dict_data['origin_user']['info']['uname']} UID:{dict_data['origin_user']['info']['uid']}动态](https://t.bilibili.com/{dict_data['item']['orig_dy_id']})\n\r内容：{origin['item']['content']}".replace(
+                                "\r", "").replace("\n", "\\n").replace(",", "，").replace("'", "‘").replace('"', '”')  # str
+                            pic_urls = []  # list
+                        except:
+                            content = f"评论：{dict_data['item']['content']}\n\r转发带图动态[{dict_data['origin_user']['info']['uname']} UID:{dict_data['origin_user']['info']['uid']}动态](https://t.bilibili.com/{dict_data['item']['orig_dy_id']})\n\r内容：{origin['item']['description']}".replace(
+                                "\r", "").replace("\n", "\\n").replace(",", "，").replace("'", "‘").replace('"', '”')  # str
+                            pic_urls = []  # 转发带图动态的图就不下了，太多了
+                            # pic_urls = [imd["img_src"] for imd in origin['item']['pictures']]  # list /item/pictures/0/img_src
+
+
                     id_ = data_json['data']['cards'][num]['desc']["dynamic_id"]  # int
                     other = "reprint"
-                except KeyError as e:
-                    # print(e)
+                except Exception as e:
+                    print(e)
                     upload_time = dict_data['item']['timestamp']  # int /item/upload_time
                     content = dict_data['item']['content'].replace("\n", "\\n").replace("\r", "").replace(",",
                                                                                                           "，").replace(
