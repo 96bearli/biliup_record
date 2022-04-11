@@ -66,6 +66,8 @@ pandoc -f markdown -t html -o data/<UID>/index.html data/<UID>/data.md # All
 |2022-3-25|完善生成的.md格式|
 |2022-3-26|修复转发带图动态内容（默认不下动态图）|
 |2022-3-26|pandoc md2html cmd|
+|2022-4-11|loguru 记录日志|
+
 
 ## Need to fix
 
