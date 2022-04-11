@@ -3,6 +3,7 @@
 import re
 import sys
 import time
+from loguru import logger
 
 
 def get_data(path):
@@ -29,7 +30,7 @@ def title_md(_time: str, type) -> str:
 
 def pic_md(pic_str: str) -> str:
     pics = pic_str.replace("'", "").replace("[", "").replace("]", "").split("&")
-    print("pics urls: ", pics)
+    # print("pics urls: ", pics)
     if len(pics) == 0:
         return None
     text = ""
@@ -61,8 +62,8 @@ def id_url_md(id, type) -> str:
         url = f"https://www.bilibili.com/audio/au{id}"
         text = f"[点击直达音乐]({url})"
     else:
-        print(type, "   ", id)
-        exit()
+        text = ""
+        logger.error(type, "   ", id)  # exit()
     return text + "\r\n"
 
 
@@ -70,11 +71,17 @@ if __name__ == '__main__':
     UID = 351609538
     if len(sys.argv) != 1:
         UID = sys.argv[1]
-        print(f"* 已获取参数 <目标UID:{UID}>")
+        logger.add(sink=f"./data/log_data_{UID}.log", format="{level} - {time} - {message}", level="DEBUG",
+                   encoding="utf-8")
+        logger.info("日志记录开始")
+        logger.success(f"* 已获取参数 <目标UID:{UID}>")
     else:
-        print(f"* 未获取到外置参数,使用内置参数 <目标UID:{UID}>")
-        print('''* Usage: python main_get.py <UID>
-    example1: python main_get.py 1111,22222,333333 0   #uids:[1111,22222,333333] download_img?:False''')
+        logger.add(sink=f"./data/log_data_{UID}.log", format="{level} - {time} - {message}", level="DEBUG",
+                   encoding="utf-8")
+        logger.info("日志记录开始")
+        logger.warning(f"* 未获取到外置参数,使用内置参数 <目标UID:{UID}>")
+        logger.info('* Usage: python main_data.py <UID>')
+        # example1: python main_get.py 1111,22222,333333 0   #uids:[1111,22222,333333] download_img?:False''')
         time.sleep(3)
     base_path = f"./data/{UID}/"
     img_path = "./img/"
@@ -86,7 +93,7 @@ if __name__ == '__main__':
         # print(data)
         time_ = time_md(data[0])
         title = title_md(time_, data[4])
-        print(title)
+        logger.info(title.replace("\r\n", ""))
         pic_data = pic_md(data[2])
 
         content = data[1].replace("\\n", "\n") + "\r\n"
@@ -104,7 +111,7 @@ if __name__ == '__main__':
         # print(click_url)
         # print(content)
         with open(md_path, "a+", encoding="utf8") as f:
-            f.write("\r\n"+title)
+            f.write("\r\n" + title)
             f.write(click_url)
             f.write(content)
-    print("Done!")
+    logger.success("Done!")
