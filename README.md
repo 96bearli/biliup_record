@@ -50,6 +50,9 @@ pandoc -f markdown -t html -o data/<UID>/index.html data/<UID>/data.md # All
 * 美化代码，优化逻辑
 * 修复BUG
 * 检测img文件夹，如果图片存在不会重新下载
+* 指定动态类型
+* 指定关键词
+* 代码重构2.0
 
 ## Update
 
