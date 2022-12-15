@@ -53,6 +53,7 @@ pandoc -f markdown -t html -o data/<UID>/index.html data/<UID>/data.md # All
 * 指定动态类型
 * 指定关键词
 * 代码重构2.0
+* 数据分析、信息挖掘模式
 
 ## Update
 
