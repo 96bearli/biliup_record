@@ -1,5 +1,7 @@
 # biliup_record
 
+**warn**: 20240322发现历史动态接口`api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history`已部分功能失效,本程序故障,待作者有时间进行修复和重构
+
 对bilibili的**up动态进行留档**，对动态自动分类标记保存到csv文件
 
 处理得到的数据，整理得到有一定格式的markdown文件
